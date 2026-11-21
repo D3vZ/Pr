@@ -1,0 +1,29 @@
+{
+  "name": "Ubuntu DinD SSH GHCR",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "v2",
+      "installDockerBuildx": true
+    }
+  },
+  "forwardPorts": [8080, 3000, 8000],
+  "remoteEnv": {
+    "DOCKER_BUILDKIT": "1"
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}
