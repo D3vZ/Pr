@@ -1,6 +1,5 @@
-
 {
-  "name": "Kali Linux ROOT DinD SSH",
+  "name": "Ubuntu 26.04 ROOT DinD SSH",
 
   "build": {
     "dockerfile": "Dockerfile",
