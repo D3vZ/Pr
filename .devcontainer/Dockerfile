@@ -1,4 +1,5 @@
-FROM ubuntu:26.04
+
+FROM kalilinux/kali-rolling
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
@@ -40,6 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rsync \
     socat \
     tini \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspaces
