@@ -1,114 +1,37 @@
 {
-  "name": "Ubuntu 26.04 ROOT DinD SSH",
-
+  "name": "Kali Full Docker SSH DevContainer",
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+    "dockerfile": "Dockerfile"
   },
-
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest",
-      "moby": true,
-      "dockerDashComposeVersion": "latest",
-      "installDockerBuildx": true
+      "enableNonRootDocker": true,
+      "moby": false
     },
-
-    "ghcr.io/devcontainers/features/sshd:1": {
-      "version": "latest",
-      "gatewayPorts": "yes"
-    }
+    "ghcr.io/devcontainers/features/ssh:1": {}
   },
-
-  "remoteUser": "root",
-  "updateRemoteUserUID": false,
   "privileged": true,
-
-  "forwardPorts": [
-    2222,
-    2375,
-    3000,
-    3001,
-    4000,
-    4200,
-    5000,
-    5001,
-    5173,
-    5500,
-    5678,
-    6006,
-    7000,
-    8000,
-    8001,
-    8080,
-    8081,
-    8088,
-    8443,
-    8888,
-    9000,
-    9090,
-    9091,
-    9200,
-    9300,
-    10000,
-    15672,
-    27017
-  ],
-
-  "portsAttributes": {
-    "2222": {
-      "label": "SSH",
-      "onAutoForward": "notify"
-    },
-    "2375": {
-      "label": "Docker API PRIVATE",
-      "onAutoForward": "ignore",
-      "visibility": "private"
-    },
-    "3000": {
-      "label": "Development Web",
-      "onAutoForward": "openBrowser"
-    },
-    "5173": {
-      "label": "Vite",
-      "onAutoForward": "openBrowser"
-    },
-    "8000": {
-      "label": "Application API",
-      "onAutoForward": "openBrowser"
-    },
-    "8080": {
-      "label": "Web Server",
-      "onAutoForward": "openBrowser"
-    },
-    "8443": {
-      "label": "HTTPS",
-      "onAutoForward": "openBrowser",
-      "protocol": "https"
-    }
-  },
-
-  "otherPortsAttributes": {
-    "onAutoForward": "notify",
-    "visibility": "private"
-  },
-
+  "init": true,
+  "overrideCommand": false,
+  "remoteUser": "vscode",
   "containerEnv": {
-    "DOCKER_BUILDKIT": "1",
-    "COMPOSE_DOCKER_CLI_BUILD": "1"
+    "DOCKER_HOST": "unix:///var/run/docker.sock"
   },
-
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-azuretools.vscode-docker",
-        "ms-vscode-remote.remote-containers",
-        "eamodio.gitlens"
-      ]
-    }
+  "forwardPorts": [
+    22, 2375, 2376,
+    3000, 3001, 4000, 4200,
+    5000, 5173, 8000, 8080,
+    8443, 9000, 9090, 9443
+  ],
+  "portsAttributes": {
+    "22": {"label": "SSH"},
+    "3000": {"label": "Frontend"},
+    "5173": {"label": "Vite"},
+    "8000": {"label": "Backend"},
+    "8080": {"label": "Web"},
+    "2375": {"label": "Docker API (insecure)"},
+    "2376": {"label": "Docker API (TLS)"}
   },
-
-  "postCreateCommand": "docker version",
-
-  "waitFor": "postCreateCommand"
+  "postCreateCommand": "docker version && docker compose version && docker buildx version"
 }
