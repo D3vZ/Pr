@@ -1,37 +1,9 @@
 {
-  "name": "Kali Full Docker SSH DevContainer",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "enableNonRootDocker": true,
-      "moby": false
-    },
-    "ghcr.io/devcontainers/features/ssh:1": {}
-  },
-  "privileged": true,
-  "init": true,
-  "overrideCommand": false,
+  "name": "Ubuntu jpetazzo-style DinD Codespace",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "workspace",
+  "runServices": ["docker"],
+  "workspaceFolder": "/workspaces/Pr",
   "remoteUser": "vscode",
-  "containerEnv": {
-    "DOCKER_HOST": "unix:///var/run/docker.sock"
-  },
-  "forwardPorts": [
-    22, 2375, 2376,
-    3000, 3001, 4000, 4200,
-    5000, 5173, 8000, 8080,
-    8443, 9000, 9090, 9443
-  ],
-  "portsAttributes": {
-    "22": {"label": "SSH"},
-    "3000": {"label": "Frontend"},
-    "5173": {"label": "Vite"},
-    "8000": {"label": "Backend"},
-    "8080": {"label": "Web"},
-    "2375": {"label": "Docker API (insecure)"},
-    "2376": {"label": "Docker API (TLS)"}
-  },
-  "postCreateCommand": "docker version && docker compose version && docker buildx version"
+  "shutdownAction": "stopCompose"
 }

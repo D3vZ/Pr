@@ -1,0 +1,27 @@
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/Pr
+    working_dir: /workspaces/Pr
+    command: sleep infinity
+    environment:
+      DOCKER_HOST: tcp://docker:2375
+      DOCKER_TLS_CERTDIR: ""
+
+  docker:
+    image: docker:dind
+    privileged: true
+    restart: unless-stopped
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    command:
+      - --host=tcp://0.0.0.0:2375
+      - --host=unix:///var/run/docker.sock
+    volumes:
+      - docker-data:/var/lib/docker
+
+volumes:
+  docker-data:
